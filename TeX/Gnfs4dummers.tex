@@ -4,6 +4,8 @@
 \singlespacing
 \usepackage[russianb]{babel}
 \usepackage{vmargin}
+\usepackage{amsthm}
+\theoremstyle{plain}
 \usepackage{amsfonts}
 \usepackage{mathtools}
 \usepackage{graphicx}
@@ -18,7 +20,56 @@
 
 
 \tableofcontents
-\chapter{Blabla}
+\chapter{Алгебраическое введение}
+\section{Кольцо целых алгебраических}
+Чтобы понять что тут вообще происходит, нужно немного алгебры.\\
+Основное поле - $\mathbb{Q}$. Корни полиномов с коэффициентами из 
+$\mathbb{Q}$ называют алгебраическими над $\mathbb{Q}$. Алгебраическое число называется целым алгебраическим, если его минимальный многочлен $g(x) \in \mathbb{Z}[x]$. Введем множество целых алгебраических поля 
+$\mathbb{Q}(\alpha)$
+$$\mathfrak{O}_{\mathbb{Q}(\alpha)}=\{x \;|\; x \in \mathbb{Q}(\alpha
+)\; \& \; \alpha\text{ - целое алгебраическое}  \}$$
+
+\newtheorem*{theorem*}{T(?)}
+\begin{theorem*}
+ $\mathfrak{O}_{\mathbb{Q}(\alpha)}$ - кольцо. Кроме того  $\mathbb{Z}[\alpha] \subseteq \mathfrak{O}_{\mathbb{Q}(\alpha)}$ - подкольцо.
+\end{theorem*}
+
+
+\begin{theorem*}
+$K$ - поле, $R \subset K$ - подкольцо с однозначным разложением на множители. Тогда $R$ содержит корни всех неприводимых унитарных многочленов из $R[x]$
+\end{theorem*}
+
+Нас будет интересовать подкольцо $\mathbb{Z}[\alpha]$ c однозначным разложением на множители. Но в каких случаях будет получаться это однозначное разложение? Теорема гарантирует однозначное разложение в 
+$\mathfrak{O}_{\mathbb{Q}(\alpha)}$. Если $\mathbb{Z}[\alpha]=\mathfrak{O}_{\mathbb{Q}(\alpha)}$ то все ок. Но это не всегда так.
+
+
+\newtheorem*{remark*}{Пример}
+\begin{remark*}
+Рассмотрим $\gamma=-\frac{1}{2}+\frac{\sqrt{5}}{2} \notin \mathbb{Z}[\sqrt{5}]$.
+Но $\gamma$ корень $x^2+x-1 \in \mathbb{Z}[x]$, значит $\gamma \in \mathfrak{O}_{\mathbb{Q}(\sqrt{5})}$
+\end{remark*}
+
+\begin{theorem*}
+$\forall \beta \in \mathfrak{O}_{\mathbb{Q}(\alpha)} \rightarrow \beta \cdot f'(\alpha) \in \mathbb{Z}[\alpha]$, где $f'(x)$ - минимальный многочлен $\alpha$
+\end{theorem*}
+
+\section{Норма}
+
+\chapter{Специальный метод решета числового поля}
+Пусть нужно факторизовать число $$n=r^t-s$$
+Нам нужно построить поле по некоторому полиному $f(x)$. Выберем d - степень полинома.
+$$r^t-s\equiv0 \; mod \; n$$
+$$r^t\equiv s \; mod \; n$$
+Положим $k=\lceil\frac{t}{d}\rceil$ и домножим обе части на $r^{kd}$
+$$r^{t+kd}\equiv sr^{kd} \; mod \; n$$
+$$r^{kd}\equiv sr^{kd-t} \; mod \; n$$
+Положим $m=r^{k}$ и $c=sr^{kd-t}$
+$$m^{d}\equiv c \; mod \; n$$
+В качестве полинома возьмем
+$$f(x)=x^d-c$$
+Построим поле
+$$^{\mathbb{Q}[x]}/_{(f)} \cong \mathbb{Q}(\alpha)\text{, где $\alpha$ - корень $f(x)$}$$
+Что же делать дальше?
 
 
 
