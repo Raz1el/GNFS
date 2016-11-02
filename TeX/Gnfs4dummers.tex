@@ -9,6 +9,7 @@
 \usepackage{amsfonts}
 \usepackage{mathtools}
 \usepackage{graphicx}
+\usepackage{mathtools}
 \usepackage{float}
 \setpapersize{A4}
 \setmarginsrb{2cm}{1.5cm}{1cm}{1.5cm}{0pt}{0mm}{0pt}{13mm}
@@ -53,8 +54,52 @@ $\mathbb{Z}[\alpha]$, если $\mathbb{Z}[\alpha]=\mathfrak{O}_{\mathbb{Q}(\alp
 $\forall \beta \in \mathfrak{O}_{\mathbb{Q}(\alpha)} \rightarrow \beta \cdot f'(\alpha) \in \mathbb{Z}[\alpha]$, где $f'(x)$ - минимальный многочлен $\alpha$
 \end{theorem*}
 
+
+
 \section{Норма}
 
+
+Вспомним, что $\mathbb{Q}(\alpha)$ - в.п. над $\mathbb{Q}$. Введем в этом пространстве линейный оператор, соответствующий некоторому элементу $\beta \in \mathbb{Q}(\alpha)$
+
+\[
+\mathcal{H}_{\beta}: \;\mathbb{Q}(\alpha) \xrightarrow[x \mapsto \beta x]{} \mathbb{Q}(\alpha)
+\]
+
+\newtheorem*{def*}{Опр}
+\begin{def*}
+Норма $\beta \in \mathbb{Q}(\alpha) $ определяется следующим равенством
+$$\mathcal{N}(\beta)=det(\mathcal{H}_{\beta})$$
+\end{def*}
+
+
+Как вычислять эту норму для произвольного элемента? Пока не ясно. В алгоритме говорится, что норму элемента вида $\beta=a+b \alpha$ можно вычислить по формуле
+$$
+\mathcal{N}(\beta)=F(a,b) = b^df(\frac{a}{b}) \text{, где } f \text{ - полином порождающий поле.}
+$$ 
+Откуда эта формула? Как ее получить из определения? Нужно разбираться. Но пока будем считать, что все норм.
+
+
+\begin{remark*}
+Попробуем вычислить норму $\beta=a+b\sqrt{5}$ в $\mathbb{Q}(\sqrt{5})$.\\
+Найдем $\mathcal{H}_{\beta}=\begin{pmatrix} x_1 & x_2 \\ x_3 & x_4 \end{pmatrix}$.
+По определению эта матрица соответствует оператору, который $x$ отправляет в $\beta x$. Подействуем этой матрицей на элементы $1$ и $\sqrt{5}$. Им соответствуют векторы $(1,0)$ и $(0,1)$.
+$$\beta \cdot 1=\beta=a+b\sqrt{5} \; \Rightarrow 
+\begin{pmatrix} x_1 & x_2 \\ x_3 & x_4 \end{pmatrix}
+\begin{pmatrix} 1 \\ 0\end{pmatrix}=
+\begin{pmatrix} x_1 \\ x_3\end{pmatrix}=
+\begin{pmatrix} a \\ b\end{pmatrix}$$
+$$
+\beta \cdot \sqrt{5}=5b+a\sqrt{5} \; \Rightarrow 
+\begin{pmatrix} x_1 & x_2 \\ x_3 & x_4 \end{pmatrix}
+\begin{pmatrix} 0 \\ 1\end{pmatrix}=
+\begin{pmatrix} x_2 \\ x_4\end{pmatrix}=
+\begin{pmatrix} 5b \\ a\end{pmatrix}
+$$
+Получили матрицу $\begin{pmatrix} a & 5b \\ b & a \end{pmatrix}$. Делаем вывод, что $\mathcal{N}(\beta)=det(\mathcal{H}_{\beta})=a^2-5b^2$.
+Попробуем вычислить по формуле. Поле $\mathbb{Q}(\sqrt{5})$ построено с помощью полинома $f(x)=x^2-5$.
+$$\mathcal{N}(\beta)=F(a,b) = b^2f(\frac{a}{b})=b^2 ((\frac{a}{b})^2-5)=a^2-5b^2$$
+Магия...
+\end{remark*}
 \chapter{Специальный метод решета числового поля}
 Пусть нужно факторизовать число $$n=r^t-s$$
 Нам нужно построить поле по некоторому полиному $f(x)$. Выберем d - степень полинома.
