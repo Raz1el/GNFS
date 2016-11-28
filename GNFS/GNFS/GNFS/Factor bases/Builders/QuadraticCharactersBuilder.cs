@@ -30,7 +30,7 @@ namespace GNFS.GNFS.Factor_bases.Builders
             var sieve = new EratosthenesSieve();
             var primes = sieve.GetPrimes(_lowerBound, _upperBound);
             var derivative=new PolynomialDerivative().Derivative(_polynomial);
-            var result = new List<FactorbaseElement>();
+            var result = new List<Pair>();
 
             List<ulong> roots;
 
@@ -42,7 +42,7 @@ namespace GNFS.GNFS.Factor_bases.Builders
                 {
                     if (derivative.Value(roots[j])%primes[i] != 0)
                     {
-                        result.Add(new FactorbaseElement(roots[j], primes[i]));
+                        result.Add(new Pair(roots[j], primes[i]));
                     }
                 }
             }

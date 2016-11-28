@@ -28,13 +28,13 @@ namespace GNFS.GNFS.Factor_bases.Builders
             var sieve = new EratosthenesSieve();
             var primes = sieve.GetPrimes(3, _primeBound);
 
-            var result = new List<FactorbaseElement>();
+            var result = new List<Pair>();
 
             var roots = _rootFinder.FindRoots(_polynomial, 2);
 
             for (int index = 0; index < roots.Count; index++)
             {
-                result.Add(new FactorbaseElement(roots[index], 2));
+                result.Add(new Pair(roots[index], 2));
             }
 
 
@@ -44,7 +44,7 @@ namespace GNFS.GNFS.Factor_bases.Builders
 
                 for (int j = 0; j < roots.Count; j++)
                 {
-                    result.Add(new FactorbaseElement(roots[j], primes[i]));
+                    result.Add(new Pair(roots[j], primes[i]));
                 }
             }
             return new AlgebraicFactorbase(result);

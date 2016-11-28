@@ -55,12 +55,16 @@
   <ItemGroup>
     <Compile Include="AlgebraicFactorbaseTest.cs" />
     <Compile Include="BruteforceRootFinderTest.cs" />
+    <Compile Include="PolynomialConverterTest.cs" />
     <Compile Include="PolynomialTest.cs" />
     <Compile Include="QuadraticCharactersBuilderTest.cs" />
     <Compile Include="RationalFactorbaseBuilderTest.cs" />
     <Compile Include="SnfsPolynomialGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PolynomialDerivativeTest.cs" />
+    <Compile Include="FirstDegreeElementsNormCalculatorTest.cs" />
+    <Compile Include="SimpleSieveAlgorithmTest.cs" />
+    <Compile Include="SmoothTesterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GNFS\GNFS.csproj">

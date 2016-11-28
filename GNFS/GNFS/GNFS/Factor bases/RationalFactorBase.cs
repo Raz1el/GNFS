@@ -4,9 +4,9 @@ namespace GNFS.GNFS.Factor_bases
 {
     public class RationalFactorbase
     {
-        public List<FactorbaseElement> Elements { get; }
+        public List<Pair> Elements { get; }
 
-        public RationalFactorbase(List<FactorbaseElement> elements)
+        public RationalFactorbase(List<Pair> elements)
         {
             Elements = elements;
         }

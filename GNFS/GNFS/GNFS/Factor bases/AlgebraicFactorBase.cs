@@ -4,9 +4,9 @@ namespace GNFS.GNFS.Factor_bases
 {
     public class AlgebraicFactorbase
     {
-        public List<FactorbaseElement> Elements { get; }
+        public List<Pair> Elements { get; }
 
-        public AlgebraicFactorbase(List<FactorbaseElement> elements)
+        public AlgebraicFactorbase(List<Pair> elements)
         {
             Elements = elements;
         }

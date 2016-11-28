@@ -85,12 +85,18 @@
     <Compile Include="GNFS\Factor bases\Builders\AlgebraicFactorbaseBuilder.cs" />
     <Compile Include="GNFS\Factor bases\Builders\QuadraticCharactersBuilder.cs" />
     <Compile Include="GNFS\Factor bases\Builders\RationalFactorbaseBuilder.cs" />
-    <Compile Include="GNFS\Factor bases\FactorbaseElement.cs" />
+    <Compile Include="GNFS\Factor bases\Pair.cs" />
     <Compile Include="GNFS\Factor bases\QuadraticCharacters.cs" />
     <Compile Include="GNFS\Factor bases\RationalFactorbase.cs" />
+    <Compile Include="GNFS\FirstDegreeElementsNormCalculator.cs" />
     <Compile Include="GNFS\Polynomial generator\IPolynomialGenerator.cs" />
     <Compile Include="GNFS\Polynomial generator\PolynomialInfo.cs" />
     <Compile Include="GNFS\Polynomial generator\SnfsPolynomialGenerator.cs" />
+    <Compile Include="GNFS\PolynomialConverter.cs" />
+    <Compile Include="GNFS\Sieve\ISievingAlgorithm.cs" />
+    <Compile Include="GNFS\Sieve\SieveOptions.cs" />
+    <Compile Include="GNFS\Sieve\SimpleSieveAlgorithm.cs" />
+    <Compile Include="GNFS\SmoothTester.cs" />
     <Compile Include="GNFS\Snfs.cs" />
     <Compile Include="Integer arithmetic\IntegerSquareRoot.cs" />
     <Compile Include="Integer arithmetic\EratosthenesSieve.cs" />
@@ -107,7 +113,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GNFS\Sieve\" />
     <Folder Include="Linear algebra\" />
   </ItemGroup>
   <ItemGroup>

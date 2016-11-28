@@ -4,9 +4,9 @@ namespace GNFS.GNFS.Factor_bases
 {
     public class QuadraticCharacters
     {
-        public List<FactorbaseElement> Elements { get; }
+        public List<Pair> Elements { get; }
 
-        public QuadraticCharacters(List<FactorbaseElement> elements)
+        public QuadraticCharacters(List<Pair> elements)
         {
             Elements = elements;
         }

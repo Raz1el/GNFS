@@ -18,18 +18,18 @@ namespace GNFSTests
             //factorbase for n=45113, m=31 with bound B=29
             RationalFactorbaseBuilder builder=new RationalFactorbaseBuilder(31,29);
             var actual=builder.Build();
-            var expected=new List<FactorbaseElement>()
+            var expected=new List<Pair>()
                 {
-                    new FactorbaseElement(1,2),
-                    new FactorbaseElement(1,3),
-                    new FactorbaseElement(1,5),
-                    new FactorbaseElement(3,7),
-                    new FactorbaseElement(9,11),
-                    new FactorbaseElement(5,13),
-                    new FactorbaseElement(14,17),
-                    new FactorbaseElement(12,19),
-                    new FactorbaseElement(8,23),
-                    new FactorbaseElement(2,29),
+                    new Pair(1,2),
+                    new Pair(1,3),
+                    new Pair(1,5),
+                    new Pair(3,7),
+                    new Pair(9,11),
+                    new Pair(5,13),
+                    new Pair(14,17),
+                    new Pair(12,19),
+                    new Pair(8,23),
+                    new Pair(2,29),
                  };
             CollectionAssert.AreEquivalent(expected,actual.Elements);
         }

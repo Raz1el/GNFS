@@ -201,6 +201,39 @@ namespace GNFS.Polynomial_arithmetic
                 }
                 return res.ToString();
             }
+
+            public static bool operator ==(Polynomial firstArg, Polynomial secondArg)
+            {
+                if (ReferenceEquals(firstArg, null) && ReferenceEquals(secondArg, null))
+                {
+                    return true;
+                }
+                if (ReferenceEquals(firstArg, null) || ReferenceEquals(secondArg, null))
+                {
+                    return false;
+                }
+                if (firstArg.Deg != secondArg.Deg)
+                {
+                    return false;
+                }
+                for (int i = 0; i <= firstArg.Deg; i++)
+                {
+                    if (firstArg._coefficients[i] != secondArg._coefficients[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            public static bool operator !=(Polynomial firstArg, Polynomial secondArg)
+            {
+                return !(firstArg == secondArg);
+            }
+
+            public override bool Equals(object obj)
+            {
+                return this==(Polynomial)obj;
+            }
         }
     }
 }

@@ -22,12 +22,12 @@ namespace GNFSTests
             Polynomial poly = new Polynomial(new BigInteger[] { 8, 29, 15, 1 });
             QuadraticCharactersBuilder builder = new QuadraticCharactersBuilder(poly, new BruteforceRootFinder(), 104,109);
             var actual = builder.Build();
-            var expected = new List<FactorbaseElement>()
+            var expected = new List<Pair>()
                 {
-                    new FactorbaseElement(4,107),
-                    new FactorbaseElement(8,107),
-                    new FactorbaseElement(80,107),
-                    new FactorbaseElement(99,109),
+                    new Pair(4,107),
+                    new Pair(8,107),
+                    new Pair(80,107),
+                    new Pair(99,109),
    
                  };
             CollectionAssert.AreEquivalent(expected, actual.Elements);
