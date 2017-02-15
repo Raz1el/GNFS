@@ -60,6 +60,7 @@ namespace GNFS
 
             var matrix = new Matrix(matr);
             var s = gauss.Solve(matrix);
+            Console.WriteLine(s);
             //Console.WriteLine("Press any key... \n");
             //Console.ReadKey();
 

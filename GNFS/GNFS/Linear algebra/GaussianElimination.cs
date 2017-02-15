@@ -25,7 +25,26 @@ namespace GNFS.Linear_algebra
                 PerformAddition();
             }
             var basis = FindBasis();
+            CheckSolutions(matrix, basis);
             return basis;
+        }
+
+        private void CheckSolutions(Matrix matrix, List<int[]> solutions)
+        {
+            for (int i = 0; i < solutions.Count; i++)
+            {
+                var solution = solutions[i];
+                for (int j = 0; j < matrix.RowsCount; j++)
+                {
+                    var shouldBeZero = 0;
+                    for (int k = 0; k < matrix.ColumnsCount; k++)
+                    {
+                        shouldBeZero += matrix[j, k] * solution[k];
+                    }
+                    shouldBeZero %= 2;
+                    if(shouldBeZero!=0)throw new Exception("Мой косяк=( (Гаусса алгоритм)");
+                }
+            }
         }
 
         private List<int[]> FindBasis()
