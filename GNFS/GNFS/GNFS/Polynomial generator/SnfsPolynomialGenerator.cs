@@ -4,8 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using GNFS.GNFS.Polynomial_selector;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
+using GNFS.Polynomial_arithmetic;
 
 namespace GNFS.GNFS.Polynomial_generator
 {

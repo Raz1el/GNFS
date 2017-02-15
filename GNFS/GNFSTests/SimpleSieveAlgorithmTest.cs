@@ -4,7 +4,7 @@ using System.Numerics;
 using GNFS.GNFS;
 using GNFS.GNFS.Factor_bases;
 using GNFS.GNFS.Sieve;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
+using GNFS.Polynomial_arithmetic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GNFSTests

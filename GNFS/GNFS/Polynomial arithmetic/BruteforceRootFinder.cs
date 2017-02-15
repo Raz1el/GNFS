@@ -4,18 +4,17 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
 
 namespace GNFS.Polynomial_arithmetic
 {
     public class BruteforceRootFinder:IRootFinder
     {
-        public List<ulong> FindRoots(Polynomial polynomial, ulong mod)
+        public List<long> FindRoots(Polynomial polynomial, long mod)
         {
             polynomial = polynomial.Reduce(mod);
 
-            var roots=new List<ulong>();
-            for (ulong i = 0; i < mod; i++)
+            var roots=new List<long>();
+            for (long i = 0; i < mod; i++)
             {
                 if (polynomial.Value(i)%mod == 0)
                 {

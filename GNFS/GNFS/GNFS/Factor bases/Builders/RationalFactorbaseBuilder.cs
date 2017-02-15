@@ -10,9 +10,9 @@ namespace GNFS.GNFS.Factor_bases.Builders
 {
     public class RationalFactorbaseBuilder
     {
-        ulong _root;
-        ulong _bound;
-        public RationalFactorbaseBuilder(ulong root, ulong bound)
+        BigInteger _root;
+        long _bound;
+        public RationalFactorbaseBuilder(BigInteger root, long bound)
         {
             _root = root;
             _bound = bound;

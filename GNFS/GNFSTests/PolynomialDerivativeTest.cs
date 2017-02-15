@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using GNFS.Polynomial_arithmetic;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GNFSTests

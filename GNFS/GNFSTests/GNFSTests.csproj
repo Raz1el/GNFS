@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mpir.NET, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mpir.NET.0.4.0\lib\net40\Mpir.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
@@ -54,8 +58,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlgebraicFactorbaseTest.cs" />
+    <Compile Include="AlgebraicSqrtTest.cs" />
     <Compile Include="BruteforceRootFinderTest.cs" />
+    <Compile Include="GcdRootFinderTest.cs" />
+    <Compile Include="MatrixBuilderTest.cs" />
     <Compile Include="PolynomialConverterTest.cs" />
+    <Compile Include="PolynomialGcdTest.cs" />
+    <Compile Include="PolynomialMathTest.cs" />
     <Compile Include="PolynomialTest.cs" />
     <Compile Include="QuadraticCharactersBuilderTest.cs" />
     <Compile Include="RationalFactorbaseBuilderTest.cs" />
@@ -71,6 +80,9 @@
       <Project>{7b56949c-543b-456d-8691-da7a5ee9ed99}</Project>
       <Name>GNFS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

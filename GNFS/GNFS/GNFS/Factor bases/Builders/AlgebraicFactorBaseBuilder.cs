@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GNFS.Integer_arithmetic;
 using GNFS.Polynomial_arithmetic;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
 
 namespace GNFS.GNFS.Factor_bases.Builders
 {
@@ -13,10 +12,10 @@ namespace GNFS.GNFS.Factor_bases.Builders
     {
         Polynomial _polynomial;
         IRootFinder _rootFinder;
-        ulong _primeBound;
+        long _primeBound;
 
 
-        public AlgebraicFactorbaseBuilder(Polynomial polynomial,IRootFinder rootFinder,ulong primeBound)
+        public AlgebraicFactorbaseBuilder(Polynomial polynomial,IRootFinder rootFinder, long primeBound)
         {
             _primeBound = primeBound;
             _rootFinder = rootFinder;
@@ -40,6 +39,7 @@ namespace GNFS.GNFS.Factor_bases.Builders
 
             for (int i = 0; i < primes.Length; i++)
             {
+                Console.Write("\r {0}/{1}",i,primes.Length);
                 roots = _rootFinder.FindRoots(_polynomial, primes[i]);
 
                 for (int j = 0; j < roots.Count; j++)

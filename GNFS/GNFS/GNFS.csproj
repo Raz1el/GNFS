@@ -70,6 +70,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mpir.NET, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mpir.NET.0.4.0\lib\net40\Mpir.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -81,6 +85,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ECM\Curve.cs" />
+    <Compile Include="ECM\CurveGenerator.cs" />
+    <Compile Include="ECM\Ecm.cs" />
+    <Compile Include="ECM\MontgomeryArithmetic.cs" />
+    <Compile Include="ECM\PrimeManager.cs" />
+    <Compile Include="ECM\ProjectivePoint.cs" />
     <Compile Include="GNFS\Factor bases\AlgebraicFactorbase.cs" />
     <Compile Include="GNFS\Factor bases\Builders\AlgebraicFactorbaseBuilder.cs" />
     <Compile Include="GNFS\Factor bases\Builders\QuadraticCharactersBuilder.cs" />
@@ -89,6 +99,7 @@
     <Compile Include="GNFS\Factor bases\QuadraticCharacters.cs" />
     <Compile Include="GNFS\Factor bases\RationalFactorbase.cs" />
     <Compile Include="GNFS\FirstDegreeElementsNormCalculator.cs" />
+    <Compile Include="GNFS\MatrixBuilder.cs" />
     <Compile Include="GNFS\Polynomial generator\IPolynomialGenerator.cs" />
     <Compile Include="GNFS\Polynomial generator\PolynomialInfo.cs" />
     <Compile Include="GNFS\Polynomial generator\SnfsPolynomialGenerator.cs" />
@@ -98,23 +109,34 @@
     <Compile Include="GNFS\Sieve\SimpleSieveAlgorithm.cs" />
     <Compile Include="GNFS\SmoothTester.cs" />
     <Compile Include="GNFS\Snfs.cs" />
+    <Compile Include="GNFS\Square root\AlgebraicSqrt.cs" />
+    <Compile Include="Integer arithmetic\ExtendedEuclideanAlgorithm.cs" />
     <Compile Include="Integer arithmetic\IntegerSquareRoot.cs" />
     <Compile Include="Integer arithmetic\EratosthenesSieve.cs" />
+    <Compile Include="Integer arithmetic\JacobiSymbol.cs" />
+    <Compile Include="Integer arithmetic\ModularSqrt.cs" />
+    <Compile Include="Integer arithmetic\ModularInverse.cs" />
+    <Compile Include="Integer arithmetic\NextPrime.cs" />
     <Compile Include="Integer arithmetic\RabinMillerTest.cs" />
+    <Compile Include="Linear algebra\GaussianElimination.cs" />
+    <Compile Include="Linear algebra\IMatrixSolver.cs" />
+    <Compile Include="Linear algebra\Matrix.cs" />
     <Compile Include="Polynomial arithmetic\BruteforceRootFinder.cs" />
     <Compile Include="Polynomial arithmetic\IRootFinder.cs" />
     <Compile Include="Polynomial arithmetic\Polynomial.cs" />
     <Compile Include="Polynomial arithmetic\PolynomialDerivative.cs" />
+    <Compile Include="Polynomial arithmetic\PolynomialGcd.cs" />
+    <Compile Include="Polynomial arithmetic\PolynomialMath.cs" />
+    <Compile Include="Polynomial arithmetic\GcdRootFinder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialNumber.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Linear algebra\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>

@@ -17,6 +17,7 @@ namespace GNFS.GNFS.Sieve
             var intervalLength =(ulong) (options.UpperBound - options.LowerBound);
             for (BigInteger b = 1;; b++)
             {
+                Console.Write("\r {0}/{1}",result.Count,pairsCount);
                 var rationalElements = new BigInteger[intervalLength];
                 var norms=new BigInteger[intervalLength];
                 InitSieve(rationalElements,norms,b,options);
@@ -34,12 +35,9 @@ namespace GNFS.GNFS.Sieve
                         {
                             result.Add(new Pair(firstComponent, secondComponent));
                         }
-                        if (d == -1)
-                        {
-                            throw new Exception();
-                        }
                         if ((ulong)result.Count == pairsCount)
                         {
+                            Console.Write("\r {0}/{1}", result.Count, pairsCount);
                             return result;
                         }
                     }
@@ -97,7 +95,8 @@ namespace GNFS.GNFS.Sieve
                 for (ulong j = (ulong)startPoint; j < options.IntervalLength; j += prime)
                 {
                     if (algebraicElements[j] % prime != 0)
-                        throw new Exception();
+                        break;
+              
                     while (algebraicElements[j] % prime == 0&& algebraicElements[j] != 0)
                     {
                         algebraicElements[j] /= prime;

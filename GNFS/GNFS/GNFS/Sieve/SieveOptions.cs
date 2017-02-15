@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using GNFS.GNFS.Factor_bases;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
+using GNFS.Polynomial_arithmetic;
 
 namespace GNFS.GNFS.Sieve
 {

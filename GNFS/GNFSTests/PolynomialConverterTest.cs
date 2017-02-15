@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using GNFS.GNFS;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
+using GNFS.Polynomial_arithmetic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GNFSTests

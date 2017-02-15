@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using GNFS.Integer_arithmetic;
 using GNFS.Polynomial_arithmetic;
-using GNFS.Polynomial_arithmetic.GaloisFieldLib;
 
 namespace GNFS.GNFS.Factor_bases.Builders
 {
@@ -13,11 +13,11 @@ namespace GNFS.GNFS.Factor_bases.Builders
     {
         Polynomial _polynomial;
         IRootFinder _rootFinder;
-        ulong _lowerBound;
-        ulong _upperBound;
+        long _lowerBound;
+        long _upperBound;
 
 
-        public QuadraticCharactersBuilder(Polynomial polynomial, IRootFinder rootFinder, ulong lowerBound,ulong upperBound)
+        public QuadraticCharactersBuilder(Polynomial polynomial, IRootFinder rootFinder, long lowerBound, long upperBound)
         {
             _lowerBound = lowerBound;
             _upperBound = upperBound;
@@ -32,7 +32,7 @@ namespace GNFS.GNFS.Factor_bases.Builders
             var derivative=new PolynomialDerivative().Derivative(_polynomial);
             var result = new List<Pair>();
 
-            List<ulong> roots;
+            List<long> roots;
 
             for (int i = 0; i < primes.Length; i++)
             {
