@@ -11,6 +11,7 @@ using GNFS.Integer_arithmetic;
 using System.Numerics;
 using GNFS.GNFS;
 using GNFS.GNFS.Square_root;
+using GNFS.Linear_algebra;
 using GNFS.Polynomial_arithmetic;
 
 
@@ -31,9 +32,34 @@ namespace GNFS
             //n = BigInteger.Parse("248969293387880645247065237773");
             //EcmSandbox(n);
 
+            var gauss=new GaussianElimination();
+            var matr = new int[10, 12];
+            var row0 = new int[] {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+            var row1 = new int[] {1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0};
+            var row2 = new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0};
+            var row3 = new int[] {0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1};
+            var row4 = new int[] {1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
+            var row5 = new int[] {0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0};
+            var row6 = new int[] { 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0 };
+            var row7 = new int[] {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0};
+            var row8 = new int[] {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
+            var row9 = new int[] {0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0};
+            for (int i = 0; i < row0.Length; i++)
+            {
+                matr[0, i] = row0[i];
+                matr[1, i] = row1[i];
+                matr[2, i] = row2[i];
+                matr[3, i] = row3[i];
+                matr[4, i] = row4[i];
+                matr[5, i] = row5[i];
+                matr[6, i] = row6[i];
+                matr[7, i] = row7[i];
+                matr[8, i] = row8[i];
+                matr[9, i] = row9[i];
+            }
 
-
-
+            var matrix = new Matrix(matr);
+            var s = gauss.Solve(matrix);
             //Console.WriteLine("Press any key... \n");
             //Console.ReadKey();
 
@@ -72,10 +98,10 @@ namespace GNFS
 
 
 
-            var num = new SpecialNumber(3, 4, 4);
-            Console.WriteLine(num.Value());
-            var snfs = new Snfs(num, new SnfsPolynomialGenerator(num, 3));
-            snfs.FindFactor();
+            //var num = new SpecialNumber(3, 4, 4);
+            //Console.WriteLine(num.Value());
+            //var snfs = new Snfs(num, new SnfsPolynomialGenerator(num, 3));
+            //snfs.FindFactor();
             Console.ReadKey();
         }
         static BigInteger EcmSandbox(BigInteger n)
