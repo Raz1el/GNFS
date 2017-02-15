@@ -27,8 +27,8 @@ namespace GNFS.GNFS
         {
             _number = number;
             _generator = generator;
-            _primeBound =10;
-            _kerDim = 1;
+            _primeBound =1000;
+            _kerDim = 10;
         }
 
 
@@ -52,7 +52,7 @@ namespace GNFS.GNFS
             var pairs =
                 sieve.Sieve(
                     (ulong) (algFb.Elements.Count + rationalFb.Elements.Count + quadraticCharFb.Elements.Count+_kerDim),
-                    new SieveOptions(14, -14, algFb, rationalFb, _polyInfo.Polynomial, _polyInfo.Root));
+                    new SieveOptions(1400, -1400, algFb, rationalFb, _polyInfo.Polynomial, _polyInfo.Root));
 
 
             var matrixBuilder=new MatrixBuilder();
@@ -65,6 +65,7 @@ namespace GNFS.GNFS
 
             foreach (var solution in solutions)
             {
+                
                 var sqr=new Polynomial(new BigInteger[] {1});
                 for (int i = 0; i < solution.Length; i++)
                 {
