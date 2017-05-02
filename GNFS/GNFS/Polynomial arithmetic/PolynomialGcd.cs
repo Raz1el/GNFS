@@ -26,6 +26,8 @@ namespace GNFS.Polynomial_arithmetic
                 firstArg = tmp;
             }
             var polyMath=new PolynomialMath(mod);
+            firstArg=firstArg.Reduce(mod);
+            secondArg=secondArg.Reduce(mod);
             while (secondArg.Deg!=-1)
             {
                 var tmp = firstArg;

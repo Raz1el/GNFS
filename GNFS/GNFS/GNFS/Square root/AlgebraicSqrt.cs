@@ -11,89 +11,162 @@ namespace GNFS.GNFS.Square_root
 {
     public class AlgebraicSqrt
     {
-        Random _random=new Random();
-        public BigInteger Sqrt(Polynomial sqr,Polynomial polynomial,BigInteger n,BigInteger root)
+        public bool DontExist { get; private set; }
+
+        public Polynomial Sqrt(Polynomial sqr,Polynomial mod,Polynomial modDerivative,BigInteger sqrtNorm)
         {
-            var nextPrime=new NextPrime();
-            var mod = nextPrime.GetNext(10*n);
-            var polyMath=new PolynomialMath(mod);
-
-
-            var rx = GeneratePoly(polynomial.Deg-1,mod);
-            var power = Pow(
-                new Tuple<Polynomial, Polynomial>(rx, new Polynomial(new BigInteger[] {-1})),
-                (BigInteger.Pow(mod,polynomial.Deg)-1)/2, polynomial,mod,sqr
-                );
-            var check = polyMath.Rem(polyMath.Mul(polyMath.Mul(sqr, power.Item2),power.Item2),polynomial);
-            while (!(check.Deg == 0 && check[0] == 1))
+            BigInteger max = 0;
+            for (int i = 0; i <= sqr.Deg; i++)
             {
-                rx = GeneratePoly(polynomial.Deg - 1, mod);
-                power = Pow(
-                    new Tuple<Polynomial, Polynomial>(rx, new Polynomial(new BigInteger[] { -1 })),
-                    (BigInteger.Pow(mod, polynomial.Deg) - 1) / 2, polynomial, mod, sqr
-                    );
-                check = polyMath.Rem(polyMath.Mul(polyMath.Mul(sqr, power.Item2), power.Item2), polynomial);
+                if (BigInteger.Abs(sqr[i]) > max)
+                {
+                    max = BigInteger.Abs(sqr[i]);
+                }
             }
-            var k = 0;
-            var r = power.Item2;
-            while (true)
+            var nextPrime=new NextPrime();
+            var bound = max*100;
+            var primes=new List<BigInteger>();
+            var sieve=new EratosthenesSieve();
+            var primesToCheck = sieve.GetPrimes(100000000, 110000000);
+            BigInteger bigMod = 1;
+
+
+            foreach (var primeToCheck in primesToCheck)
             {
-                k++;
-                var pk = BigInteger.Pow(mod, k);
-                polyMath=new PolynomialMath(pk);
-                var inverse=new ModularInverse();
-                r =polyMath.Mul(new Polynomial(new BigInteger[] {inverse.Inverse(2,pk)}), polyMath.Mul(r,
-                    polyMath.Sub(new Polynomial(new BigInteger[] {3}), polyMath.Mul(polyMath.Mul(sqr, r), r))));
-                check = polyMath.Rem(polyMath.Mul(polyMath.Mul(sqr, r), r), polynomial);
-                if (check==sqr)
+
+                var irreducibilityTest = new IrreducibilityTest();
+                if (!irreducibilityTest.IsIrreducible(mod, primeToCheck))
+                {
+                    continue;
+                }
+
+                var isSqr = IsSqr(sqr, mod, primeToCheck);
+                if (!isSqr)
+                {
+                    continue;
+                }
+
+                bigMod *= primeToCheck;
+                primes.Add(primeToCheck);
+                if (bigMod > bound)
                     break;
             }
-            polyMath=new PolynomialMath(mod);
-            var dx=new PolynomialDerivative();
-            var df = dx.Derivative(polynomial);
-            return polyMath.Mul(polyMath.Mul(sqr, r), df).Value(root);
-        }
-
-        Polynomial GeneratePoly(long deg,BigInteger mod)
-        {
-            var poly=new BigInteger[deg+1];
-            for (int i = 0; i < deg; i++)
+            var prime = 2*primes[primes.Count - 1];
+            while (bigMod<bound)
             {
-                poly[i] = _random.Next();
-            }
-            poly[deg] = _random.Next(1,int.MaxValue);
-            return new Polynomial(poly,mod);
-        }
-
-
-        public Tuple<Polynomial, Polynomial> Pow(Tuple<Polynomial, Polynomial> x, BigInteger pow, Polynomial modPoly,BigInteger mod, Polynomial s)
-        {
-            if (pow == 0)
-                return new Tuple<Polynomial, Polynomial>(new Polynomial(new BigInteger[] { 1}), new Polynomial(new BigInteger[] { 0 }));
-
-            var polyMath=new PolynomialMath(mod);
-            var res = new Tuple<Polynomial, Polynomial>(new Polynomial(new BigInteger[] { 1 }), new Polynomial(new BigInteger[] { 0 }));
-            Tuple<Polynomial, Polynomial> a = x;
-            while (pow != 0)
-            {
-                Polynomial first, second;
-
-                if (pow % 2 != 0)
+                prime = nextPrime.GetNext(prime);
+                var irreducibilityTest = new IrreducibilityTest();
+                while (!irreducibilityTest.IsIrreducible(mod, prime))
                 {
-                    first = polyMath.Add(polyMath.Mul(a.Item1, res.Item1),polyMath.Mul(polyMath.Mul(a.Item2,res.Item2),s));
-                    second = polyMath.Add(polyMath.Mul(a.Item2, res.Item1), polyMath.Mul(a.Item1, res.Item2));
-                    res = new Tuple<Polynomial, Polynomial>(polyMath.Rem(first,modPoly),polyMath.Rem(second,modPoly));
+                    prime = nextPrime.GetNext(prime + 1);
+                }
+
+                var isSqr = IsSqr(sqr, mod, prime);
+                if (!isSqr)
+                {
+                    continue;
+                }
+
+                bigMod *= prime;
+                primes.Add(prime);
+
+            }
+            var sqrts=new List<Polynomial>();
+            foreach (var fieldChar in primes)
+            {
+                var polyMath = new PolynomialMath(fieldChar);
+                var four = new Polynomial(new BigInteger[] { 4 });
+                Polynomial b;
+
+                var isSqr = false;
+                for (int i = 0; true; i++)
+                {
+                    b = new Polynomial(new BigInteger[] { i });
+
+                    var tmp = polyMath.ModPow(polyMath.Sub(polyMath.Mul(b, b), polyMath.Mul(four, sqr)),
+                        (BigInteger.Pow(fieldChar, mod.Deg) - 1) / 2, mod);
+                    isSqr = (tmp[0] == 1 || tmp[0] == -(fieldChar - 1)) && (tmp.Deg == 0);
+                    if (!isSqr)
+                    {
+                        break;
+
+                    }
                 }
 
 
-                first = polyMath.Add(polyMath.Mul(a.Item1, a.Item1), polyMath.Mul(polyMath.Mul(a.Item2, a.Item2), s));
-                second = polyMath.Mul(polyMath.Mul(a.Item1, a.Item2),new Polynomial(new BigInteger[] {2}));
-               
-                
-                a = new Tuple<Polynomial, Polynomial> (polyMath.Rem(first, modPoly), polyMath.Rem(second, modPoly));
-                pow >>= 1;
+                var gfMath = new FiniteFieldMath(mod, fieldChar);
+                var modPoly = new PolynomialOverFiniteField(new Polynomial[] { sqr, b, new Polynomial(new BigInteger[] { 1 }) });
+
+                var y = new PolynomialOverFiniteField(new Polynomial[] { new Polynomial(new BigInteger[] { 0 }), new Polynomial(new BigInteger[] { 1 }) });
+
+                var sqrt= gfMath.ModPow(y, (BigInteger.Pow(fieldChar, mod.Deg) + 1) / 2, modPoly)[0];
+
+
+
+ 
+                var sqrtNormMod=sqrtNorm * polyMath.ModPow(modDerivative, (BigInteger.Pow(fieldChar, mod.Deg) - 1) / (fieldChar - 1), mod)[0];
+                var norm = polyMath.ModPow(sqrt, (BigInteger.Pow(fieldChar, mod.Deg) - 1) / (fieldChar - 1), mod)[0];
+                sqrtNormMod %= fieldChar;
+                if (sqrtNormMod < 0)
+                {
+                    sqrtNormMod = sqrtNormMod+fieldChar;
+                }
+                if (norm < 0)
+                {
+                    norm = norm+fieldChar;
+                }
+
+                if (norm != sqrtNormMod)
+                {
+                    sqrt = polyMath.ConstMul(-1, sqrt);
+                }
+
+                sqrts.Add(sqrt);
+
             }
-            return res;
+
+
+            BigInteger[] result=new BigInteger[mod.Deg];
+            var crt=new GarnerCrt();
+            for (int i = 0; i < mod.Deg; i++)
+            {
+                var coefficients=new List<BigInteger>();
+                for (int j = 0; j < primes.Count; j++)
+                {
+                    coefficients.Add(sqrts[j][i]);
+                }
+                result[i] = crt.Calculate(coefficients, primes);
+
+            }
+
+            var resultPoly=new Polynomial(result);
+
+            for (int i = 0; i <= resultPoly.Deg; i++)
+            {
+                var coeff = BigInteger.Abs(resultPoly[i]);
+                if (coeff > max)
+                {
+                    if (resultPoly[i] < 0)
+                    {
+                        resultPoly[i] += bigMod;
+                    }
+                    else
+                    {
+                        resultPoly[i] -= bigMod;
+                    }
+
+                }
+            }
+            return resultPoly;
+        }
+
+       
+
+        public bool IsSqr(Polynomial sqr, Polynomial mod, BigInteger fieldChar)
+        {
+            var polyMath=new PolynomialMath(fieldChar);
+            var isSqr= polyMath.ModPow(sqr, (BigInteger.Pow(fieldChar, mod.Deg) - 1) / 2, mod)[0] == 1;
+            return isSqr;
         }
     }
 }

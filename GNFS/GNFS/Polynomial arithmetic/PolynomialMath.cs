@@ -216,6 +216,17 @@ namespace GNFS.Polynomial_arithmetic
 
             return new Polynomial(result, Mod);
         }
+
+        public Polynomial ConstMul(BigInteger number, Polynomial polynomial)
+        {
+            var result = new BigInteger[polynomial.Deg+1];
+            for (int i = 0; i <= polynomial.Deg; i++)
+            {
+                result[i] = number*polynomial[i];
+            }
+            return new Polynomial(result,Mod);
+        }
+
         public Polynomial Add(Polynomial firstArg, Polynomial secondArg)
         {
             int firstDeg = firstArg.Deg;

@@ -11,6 +11,7 @@ namespace GNFS.Integer_arithmetic
     {
         public  BigInteger GetNext(BigInteger number)
         {
+
             var primeTest=new RabinMillerTest();
             number++;
             if (number < 2)

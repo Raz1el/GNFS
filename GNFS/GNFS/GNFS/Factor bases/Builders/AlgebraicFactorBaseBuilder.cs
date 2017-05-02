@@ -24,10 +24,14 @@ namespace GNFS.GNFS.Factor_bases.Builders
 
         public AlgebraicFactorbase Build()
         {
-            var sieve = new EratosthenesSieve();
-            var primes = sieve.GetPrimes(3, _primeBound);
 
+
+            var sieve = new EratosthenesSieve();
             var result = new List<Pair>();
+            long interval = 10000000;
+
+            if (_primeBound < interval)
+                interval = _primeBound;
 
             var roots = _rootFinder.FindRoots(_polynomial, 2);
 
@@ -37,17 +41,47 @@ namespace GNFS.GNFS.Factor_bases.Builders
             }
 
 
-            for (int i = 0; i < primes.Length; i++)
-            {
-                Console.Write("\r {0}/{1}",i,primes.Length);
-                roots = _rootFinder.FindRoots(_polynomial, primes[i]);
 
-                for (int j = 0; j < roots.Count; j++)
+
+            for (long k = 3; k < _primeBound; k += interval)
+            {
+                var primes = sieve.GetPrimes(k, k+interval);
+
+              
+
+           
+
+                for (int i = 0; i < primes.Length; i++)
                 {
-                    result.Add(new Pair(roots[j], primes[i]));
+                    Console.Write("\r k="+k+"; i="+i+"; p="+primes[i]+"                                 ");
+                    roots = _rootFinder.FindRoots(_polynomial, primes[i]);
+                    for (int j = 0; j < roots.Count; j++)
+                    {
+                        result.Add(new Pair(roots[j], primes[i]));
+                    }
                 }
             }
+
             return new AlgebraicFactorbase(result);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
 
         }
     }

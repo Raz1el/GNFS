@@ -14,13 +14,13 @@ namespace GNFS.GNFS.Factor_bases.Builders
         Polynomial _polynomial;
         IRootFinder _rootFinder;
         long _lowerBound;
-        long _upperBound;
+        long _size;
 
 
-        public QuadraticCharactersBuilder(Polynomial polynomial, IRootFinder rootFinder, long lowerBound, long upperBound)
+        public QuadraticCharactersBuilder(Polynomial polynomial, IRootFinder rootFinder, long lowerBound, long size)
         {
             _lowerBound = lowerBound;
-            _upperBound = upperBound;
+            _size = size;
             _rootFinder = rootFinder;
             _polynomial = polynomial;
         }
@@ -28,7 +28,7 @@ namespace GNFS.GNFS.Factor_bases.Builders
         public QuadraticCharacters Build()
         {
             var sieve = new EratosthenesSieve();
-            var primes = sieve.GetPrimes(_lowerBound, _upperBound);
+            var primes = sieve.GetPrimes(_lowerBound+1,_lowerBound+ 100*_size);
             var derivative=new PolynomialDerivative().Derivative(_polynomial);
             var result = new List<Pair>();
 
@@ -44,6 +44,8 @@ namespace GNFS.GNFS.Factor_bases.Builders
                     {
                         result.Add(new Pair(roots[j], primes[i]));
                     }
+                    if(result.Count==_size)
+                        return new QuadraticCharacters(result);
                 }
             }
             return new QuadraticCharacters(result);

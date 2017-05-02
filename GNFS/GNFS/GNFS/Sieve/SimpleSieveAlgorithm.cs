@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
@@ -11,38 +12,53 @@ namespace GNFS.GNFS.Sieve
 {
     public class SimpleSieveAlgorithm : ISievingAlgorithm
     {
-        public List<Pair> Sieve(ulong pairsCount,SieveOptions options)
+        public List<Pair> Sieve(long pairsCount,SieveOptions options)
         {
             var result=new List<Pair>();
-            var intervalLength =(ulong) (options.UpperBound - options.LowerBound);
-            for (BigInteger b = 1;; b++)
+            var intervalLength =(long) (options.UpperBound - options.LowerBound);
+            for (BigInteger b = 1;b<100; b++)
             {
-                Console.Write("\r {0}/{1}",result.Count,pairsCount);
+                var timer=new Stopwatch();
+                Console.Write("\r {0}                  |", b);
+                Console.Write("\r {0}/{1}   [b={2}]",result.Count,pairsCount,b);
                 var rationalElements = new BigInteger[intervalLength];
                 var norms=new BigInteger[intervalLength];
+                timer.Start();
                 InitSieve(rationalElements,norms,b,options);
+                Console.WriteLine("\nINIT: "+timer.Elapsed);
+                timer.Reset();
+                timer.Start();
                 RationalSieve(rationalElements,b,options);
+                Console.WriteLine("Rational: " + timer.Elapsed);
+                timer.Reset();
+                timer.Start();
                 AlgebraicSieve(norms,b,options);
-                for (ulong i = 0; i < intervalLength; i++)
+                Console.WriteLine("Algebraic: " + timer.Elapsed);
+                timer.Reset();
+                timer.Start();
+                for (long i = 0; i < intervalLength; i++)
                 {
-                 
-                    if (BigInteger.Abs(rationalElements[i]) == 1&& (BigInteger.Abs(norms[i]) == 1))
+
+                    if (BigInteger.Abs(rationalElements[i]) == 1 && (BigInteger.Abs(norms[i]) == 1))
                     {
                         var firstComponent = options.LowerBound + i;
                         var secondComponent = b;
-                        var d = BigInteger.GreatestCommonDivisor(firstComponent,secondComponent);
+                        var d = BigInteger.GreatestCommonDivisor(firstComponent, secondComponent);
                         if (d == 1)
                         {
                             result.Add(new Pair(firstComponent, secondComponent));
                         }
-                        if ((ulong)result.Count == pairsCount)
+                        if (result.Count == pairsCount)
                         {
                             Console.Write("\r {0}/{1}", result.Count, pairsCount);
                             return result;
                         }
                     }
                 }
+                Console.WriteLine("Other: " + timer.Elapsed);
+              //  Console.ReadKey();
             }
+            return result;
         }
 
         void InitSieve(BigInteger[] rationalElements, BigInteger[] norms, BigInteger b,SieveOptions options)
@@ -52,6 +68,7 @@ namespace GNFS.GNFS.Sieve
             
             for (var i = 0; i < rationalElements.Length; i++)
             {
+               
                 rationalElements[i] = a+b*options.IntegerRoot;
                 norms[i] = normCalculator.CalculateNorm(a);
                 a++;
@@ -67,12 +84,9 @@ namespace GNFS.GNFS.Sieve
                     (options.LowerBound % currentPair.Item2 + currentPair.Item2) % currentPair.Item2;
                 startPoint =startPoint+ currentPair.Item2;
                 startPoint %= currentPair.Item2;
-                var log = BigInteger.Log(currentPair.Item2);
-                var prime = (ulong) currentPair.Item2;
-                for (ulong j = (ulong)startPoint; j <options.IntervalLength; j+= prime)
+                var prime = (long) currentPair.Item2;
+                for (long j = (long)startPoint; j <options.IntervalLength; j+= prime)
                 {
-                    if (rationalElements[j]%prime!=0)
-                        throw new Exception();
                     while (rationalElements[j] % prime == 0&& rationalElements[j]!=0)
                     {
                         rationalElements[j] /= prime;
@@ -90,12 +104,9 @@ namespace GNFS.GNFS.Sieve
                     (options.LowerBound % currentPair.Item2 + currentPair.Item2) % currentPair.Item2;
                 startPoint = startPoint + currentPair.Item2;
                 startPoint %= currentPair.Item2;
-                var log = BigInteger.Log(currentPair.Item2);
-                var prime = (ulong)currentPair.Item2;
-                for (ulong j = (ulong)startPoint; j < options.IntervalLength; j += prime)
+                var prime = (long)currentPair.Item2;
+                for (long j = (long)startPoint; j < options.IntervalLength; j += prime)
                 {
-                    if (algebraicElements[j] % prime != 0)
-                        break;
               
                     while (algebraicElements[j] % prime == 0&& algebraicElements[j] != 0)
                     {

@@ -9,6 +9,6 @@ namespace GNFS.GNFS.Sieve
 {
     public interface ISievingAlgorithm
     {
-        List<Pair> Sieve(ulong pairsCount,SieveOptions options);
+        List<Pair> Sieve(long pairsCount,SieveOptions options);
     }
 }

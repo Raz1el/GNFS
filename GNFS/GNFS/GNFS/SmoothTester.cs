@@ -16,8 +16,12 @@ namespace GNFS.GNFS
             if (BigInteger.GreatestCommonDivisor(a, b) != 1)
                 return false;
             var element = a + b*integerRoot;
+            if (element == 0)
+                return false;
             for (int i = 0; i < factorbase.Elements.Count; i++)
             {
+                if (element == 1 || element == -1)
+                    return true;
                 var currentPair = factorbase.Elements[i];
                 while (element%currentPair.Item2 == 0)
                 {
@@ -33,8 +37,12 @@ namespace GNFS.GNFS
                 return false;
             var normCalculator=new FirstDegreeElementsNormCalculator(polynomial,b);
             var element = normCalculator.CalculateNorm(a);
+            if (element == 0)
+                return false;
             for (int i = 0; i < factorbase.Elements.Count; i++)
             {
+                if (element == 1 || element == -1)
+                    return true;
                 var currentPair = factorbase.Elements[i];
                 while (element % currentPair.Item2 == 0)
                 {

@@ -21,15 +21,24 @@ namespace GNFS.GNFS.Factor_bases.Builders
         {
 
             var sieve=new EratosthenesSieve();
-            var primes = sieve.GetPrimes(3, _bound);
-
-            var result=new List<Pair>();
-
-            result.Add(new Pair(_root%2,2));
-            for (int i = 0; i < primes.Length; i++)
+            var result = new List<Pair>();
+           
+            long interval = 10000000;
+            if (_bound < interval)
+                interval = _bound;
+                for (long j = 3; j < _bound; j+=interval)
             {
-                result.Add(new Pair(_root % primes[i], primes[i]));
+                var primes = sieve.GetPrimes(j, interval+j);
+
+                
+
+                result.Add(new Pair(_root % 2, 2));
+                for (int i = 0; i < primes.Length; i++)
+                {
+                    result.Add(new Pair(_root % primes[i], primes[i]));
+                }
             }
+           
             return new RationalFactorbase(result);
         }
     }

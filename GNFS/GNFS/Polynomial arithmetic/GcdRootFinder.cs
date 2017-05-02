@@ -15,14 +15,33 @@ namespace GNFS.Polynomial_arithmetic
 
         public List<long> FindRoots(Polynomial polynomial, long mod)
         {
+            if (mod < 100)
+            {
+                var bruteForceMethod=new BruteforceRootFinder();
+                return bruteForceMethod.FindRoots(polynomial, mod);
+            }
             var result=new List<long>();
             var gcd=new PolynomialGcd();
-            var h = new BigInteger[mod+1];
-            var polyMath=new PolynomialMath(mod);
-            h[1] = -1;
-            h[mod] = 1;
 
-            var g = gcd.Calculate(polynomial, new Polynomial(h), mod);
+
+
+
+
+            var polyMath=new PolynomialMath(mod);
+
+
+            var x = new Polynomial(new BigInteger[] { 0, 1 });
+
+
+            var powX = polyMath.ModPow(x, mod, polynomial);
+            var h = polyMath.Sub(powX, x);
+
+
+
+
+            var g = gcd.Calculate(polynomial, h, mod);
+
+
             if (g.Value(0)%mod == 0)
             {
                 result.Add(0);
@@ -35,6 +54,8 @@ namespace GNFS.Polynomial_arithmetic
 
         void Roots(Polynomial polynomial,long mod,List<long> roots)
         {
+            if(polynomial.Deg<1)
+                return;
             if (polynomial.Deg == 2)
             {
                 if (mod%2 == 0)

@@ -26,7 +26,7 @@ namespace GNFS.Integer_arithmetic
             }
             for (int i = 0; i < iterationsCount; i++)
             {
-                BigInteger b = GenerateNumber(number);
+                BigInteger b = GenerateNumber(number-2);
                 b = BigInteger.ModPow(b, q, number);
                 if (b == 1 || b == number - 1)
                     continue;
@@ -34,6 +34,8 @@ namespace GNFS.Integer_arithmetic
                 for (int j = 0; j < s; j++)
                 {
                     b = BigInteger.ModPow(b, 2, number);
+                    if (b == 1)
+                        return false;
                     if (b == number - 1)
                     {
                         nextStep = true;

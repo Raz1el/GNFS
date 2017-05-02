@@ -87,6 +87,8 @@ namespace GNFS.Polynomial_arithmetic
         {
             get
             {
+                if (index >= _coefficients.Length)
+                    return 0;
                 return _coefficients[index];
             }
             set
@@ -112,7 +114,7 @@ namespace GNFS.Polynomial_arithmetic
 
         public BigInteger Value(BigInteger point)
         {
-            BigInteger bn, bn_1 = 0;
+            BigInteger bn, bn_1 = this[0];
 
             bn = this[Deg];
             for (int i = 1; i <= Deg; i++)
