@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using GNFS.GNFS.Factor_bases;
 using GNFS.Integer_arithmetic;
 using GNFS.Linear_algebra;
-using GNFS.Linear_algebra.tmp;
 
 namespace GNFS.QS
 {
@@ -57,6 +56,10 @@ namespace GNFS.QS
             while (smoothPairs.Count < _factorBase.Length+_kerSize)
             {
                 var polynomials = GeneratePolynomials(n);
+                if (polynomials == null)
+                {
+                    return 1;
+                }
                 foreach (var sievePolynomial in polynomials)
                 {
                     smoothPairs.AddRange(LogSieve(sievePolynomial,n));
@@ -79,7 +82,6 @@ namespace GNFS.QS
             var matrixSolver = new GaussianEliminationOverGf2();
             var solutions = matrixSolver.Solve(matrix);
             Console.WriteLine("linear algebra time: "+timer.Elapsed);
-            matrixSolver.CheckSolutions(matrix, solutions);
             foreach (var solution in solutions)
             {
             
@@ -516,8 +518,11 @@ namespace GNFS.QS
                 firstSln[p] = (long)(ainv[p] * (_sqrtN[p] - b) % p);
                 secondSln[p] = (long)(ainv[p] * (-_sqrtN[p] - b) % p);
             }
-    
 
+            if (primes.Count == 0)
+            {
+                return null;
+            }
 
             result.Add(new SievePolynomial() {A = a,B=b,C=(b*b-n)/a,FirstRoot = firstSln,SecondRoot = secondSln,InvA = ainv,MinFactorA = primes[0],MaxFactorA = primes[primes.Count-1]});
 

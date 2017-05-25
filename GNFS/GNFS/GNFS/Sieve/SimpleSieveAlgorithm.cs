@@ -18,24 +18,12 @@ namespace GNFS.GNFS.Sieve
             var intervalLength =(long) (options.UpperBound - options.LowerBound);
             for (BigInteger b = 1;b<100; b++)
             {
-                var timer=new Stopwatch();
-                Console.Write("\r {0}                  |", b);
                 Console.Write("\r {0}/{1}   [b={2}]",result.Count,pairsCount,b);
                 var rationalElements = new BigInteger[intervalLength];
                 var norms=new BigInteger[intervalLength];
-                timer.Start();
                 InitSieve(rationalElements,norms,b,options);
-                Console.WriteLine("\nINIT: "+timer.Elapsed);
-                timer.Reset();
-                timer.Start();
                 RationalSieve(rationalElements,b,options);
-                Console.WriteLine("Rational: " + timer.Elapsed);
-                timer.Reset();
-                timer.Start();
                 AlgebraicSieve(norms,b,options);
-                Console.WriteLine("Algebraic: " + timer.Elapsed);
-                timer.Reset();
-                timer.Start();
                 for (long i = 0; i < intervalLength; i++)
                 {
 
@@ -55,8 +43,6 @@ namespace GNFS.GNFS.Sieve
                         }
                     }
                 }
-                Console.WriteLine("Other: " + timer.Elapsed);
-              //  Console.ReadKey();
             }
             return result;
         }
@@ -80,10 +66,16 @@ namespace GNFS.GNFS.Sieve
             for (int i = 0; i < options.RationalFactorbase.Elements.Count; i++)
             {
                 var currentPair = options.RationalFactorbase.Elements[i];
-                var startPoint = (currentPair.Item2-(b*currentPair.Item1)%currentPair.Item2)%currentPair.Item2-
-                    (options.LowerBound % currentPair.Item2 + currentPair.Item2) % currentPair.Item2;
-                startPoint =startPoint+ currentPair.Item2;
-                startPoint %= currentPair.Item2;
+                var startPoint = (options.LowerBound + b * currentPair.Item1) % currentPair.Item2;
+                if (startPoint <= 0)
+                {
+                    startPoint = -startPoint;
+                }
+                else
+                {
+                    startPoint = currentPair.Item2 - startPoint;
+                }
+
                 var prime = (long) currentPair.Item2;
                 for (long j = (long)startPoint; j <options.IntervalLength; j+= prime)
                 {
@@ -100,10 +92,18 @@ namespace GNFS.GNFS.Sieve
             for (int i = 0; i < options.AlgebraicFactorbase.Elements.Count; i++)
             {
                 var currentPair = options.AlgebraicFactorbase.Elements[i];
-                var startPoint = (currentPair.Item2 - (b * currentPair.Item1) % currentPair.Item2) % currentPair.Item2 -
-                    (options.LowerBound % currentPair.Item2 + currentPair.Item2) % currentPair.Item2;
-                startPoint = startPoint + currentPair.Item2;
-                startPoint %= currentPair.Item2;
+
+                var startPoint = (options.LowerBound + b * currentPair.Item1) % currentPair.Item2;
+                if (startPoint <= 0)
+                {
+                    startPoint = -startPoint;
+                }
+                else
+                {
+                    startPoint = currentPair.Item2 - startPoint;
+                }
+
+
                 var prime = (long)currentPair.Item2;
                 for (long j = (long)startPoint; j < options.IntervalLength; j += prime)
                 {

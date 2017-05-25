@@ -13,8 +13,7 @@ namespace GNFS.GNFS
     {
         public bool IsSmoothOverRationalFactorbase(BigInteger a,BigInteger b,BigInteger integerRoot,RationalFactorbase factorbase)
         {
-            if (BigInteger.GreatestCommonDivisor(a, b) != 1)
-                return false;
+
             var element = a + b*integerRoot;
             if (element == 0)
                 return false;
@@ -33,8 +32,6 @@ namespace GNFS.GNFS
         }
         public bool IsSmoothOverAlgebraicFactorbase(BigInteger a, BigInteger b, Polynomial polynomial, AlgebraicFactorbase factorbase)
         {
-            if (BigInteger.GreatestCommonDivisor(a, b) != 1)
-                return false;
             var normCalculator=new FirstDegreeElementsNormCalculator(polynomial,b);
             var element = normCalculator.CalculateNorm(a);
             if (element == 0)

@@ -25,6 +25,7 @@ namespace GNFS.GNFS
         long _algebraicPrimeBound;
         long _sieveSize;
         long _quadraticCharFbSize;
+        ISievingAlgorithm _sieveAlgorithm;
 
         public Gnfs(BigInteger number, IPolynomialGenerator generator)
         {
@@ -33,7 +34,7 @@ namespace GNFS.GNFS
 
             var exp = Math.Pow(8 / 9.0, 1 / 3.0) * Math.Pow(BigInteger.Log(number), 1 / 3.0) * Math.Pow(Math.Log(BigInteger.Log(number)), 2 / 3.0);
 
-
+            _sieveAlgorithm =new LogSieve();
             _rationalPrimeBound = Convert.ToInt64(Math.Exp(exp) / 2);
             _algebraicPrimeBound = _rationalPrimeBound;
             _kerDim = 10;
@@ -42,11 +43,11 @@ namespace GNFS.GNFS
         }
 
 
-        public Gnfs(BigInteger number, IPolynomialGenerator generator,long rfb,long afb,long sieveSize)
+        public Gnfs(BigInteger number, IPolynomialGenerator generator,long rfb,long afb,long sieveSize,ISievingAlgorithm sieve)
         {
             _number = number;
             _generator = generator;
-
+            _sieveAlgorithm = sieve;
             _rationalPrimeBound = rfb;
             _algebraicPrimeBound = afb;
             _kerDim = 10;
@@ -58,10 +59,15 @@ namespace GNFS.GNFS
 
         public BigInteger FindFactor()
         {
-
+            
             var timer = new Stopwatch();
             timer.Start();
             _polyInfo = _generator.GeneratePolynomial();
+            if (_polyInfo.Polynomial.Deg%2 == 0)
+            {
+                Console.WriteLine("ERROR: even polynomial degre");
+                return 1;
+            }
             Console.WriteLine(_number);
             Console.WriteLine("f(x)=" + _polyInfo.Polynomial);
             Console.WriteLine("Root=" + _polyInfo.Root);
@@ -77,7 +83,6 @@ namespace GNFS.GNFS
 
             var quadraticCharFb = quadraticCharFbBuilder.Build();
             var algFb = algFbBuilder.Build();
-            var sieve = new LogSieve();
             Console.WriteLine("\nRational factorbase size: " + rationalFb.Elements.Count);
             Console.WriteLine("Algebraic factorbase size: " + algFb.Elements.Count);
             Console.WriteLine("Quadratic characters factorbase size: " + quadraticCharFb.Elements.Count);
@@ -85,7 +90,7 @@ namespace GNFS.GNFS
             timer.Reset();
             timer.Start();
             var pairs =
-                sieve.Sieve(
+                _sieveAlgorithm.Sieve(
                     (algFb.Elements.Count + rationalFb.Elements.Count + quadraticCharFb.Elements.Count + _kerDim + 1),
                     new SieveOptions(_sieveSize, -_sieveSize, algFb, rationalFb, _polyInfo.Polynomial, _polyInfo.Root));
 
@@ -118,7 +123,6 @@ namespace GNFS.GNFS
             {
 
                 timer.Reset();
-                timer.Start();
                 var sqr = new Polynomial(new BigInteger[] { 1 });
                 BigInteger sqrtNorm = 1;
                 BigInteger x = 1;
@@ -145,39 +149,18 @@ namespace GNFS.GNFS
                 sqr = polyMath.Rem(polyMath.Mul(sqrDf, sqr), _polyInfo.Polynomial);
                 var integerSqrt = new IntegerSquareRoot();
                 var sqrtX = integerSqrt.Sqrt(x);
-                if (sqrtX * sqrtX != x)
-                {
-                    if (sqrtX * sqrtX != x)
-                    {
-                        if (sqrtX * sqrtX != x)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                }
+
 
 
                 var algSqrt = new AlgebraicSqrt();
 
 
                 sqrtNorm = BigInteger.Abs(sqrtNorm);
-                var tmpNorm = sqrtNorm;
                 sqrtNorm = integerSqrt.Sqrt(BigInteger.Abs(sqrtNorm));
-                timer.Stop();
-                Console.WriteLine(timer.Elapsed + " Умножение");
 
 
 
-                if (sqrtNorm * sqrtNorm != tmpNorm)
-                {
-                    if (sqrtNorm * sqrtNorm != tmpNorm)
-                    {
-                        if (sqrtNorm * sqrtNorm != tmpNorm)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                }
+
                 timer.Reset();
                 timer.Start();
                 var sqrt = algSqrt.Sqrt(sqr, _polyInfo.Polynomial, df, sqrtNorm);
@@ -190,36 +173,14 @@ namespace GNFS.GNFS
                 }
                 var sqrtY = sqrt.Value(_polyInfo.Root);
 
-                var check = polyMath.Rem(polyMath.Mul(sqrt, sqrt), _polyInfo.Polynomial);
-                if (check != sqr)
-                {
-                    var primes = new EratosthenesSieve().GetPrimes(5, 10000);
-                    int i;
-                    for (i = 0; i < primes.Length; i++)
-                    {
-                        if (!algSqrt.IsSqr(sqr, _polyInfo.Polynomial, primes[i]))
-                        {
-                            break;
-                        }
-                    }
-                    if (i == primes.Length)
-                    {
-                        throw new Exception();
-                    }
-                    Console.Write("\r{0}/{1} solutions cheked. (BAD SQRT)    ", ++solutionsCheked, solutions.Count);
-                    continue;
-                }
-                if ((sqrtY * sqrtY - sqrtX * sqrtX) % _number != 0)
-                {
-                    throw new Exception();
-                }
                 var factor = BigInteger.GreatestCommonDivisor(sqrtX - sqrtY, _number);
                 if (factor > 1 && factor < _number)
                 {
                     Console.Write("\r{0}/{1} solutions cheked                ", ++solutionsCheked, solutions.Count);
+                    Console.WriteLine();
                     return factor;
                 }
-                Console.Write("\r{0}/{1} solutions cheked. (BAD SOLUTION)", ++solutionsCheked, solutions.Count);
+                Console.Write("\r{0}/{1} solutions cheked.  (trivial factor found)      ", ++solutionsCheked, solutions.Count);
             }
             Console.Write("\r{0}/{1} solutions cheked.                ", solutionsCheked, solutions.Count);
             return 1;

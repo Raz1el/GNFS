@@ -53,7 +53,7 @@ namespace GNFS.GNFS.Factor_bases.Builders
 
                 for (int i = 0; i < primes.Length; i++)
                 {
-                    Console.Write("\r k="+k+"; i="+i+"; p="+primes[i]+"                                 ");
+                    Console.Write("\rAFB building. Current prime: "+primes[i]+"                                 ");
                     roots = _rootFinder.FindRoots(_polynomial, primes[i]);
                     for (int j = 0; j < roots.Count; j++)
                     {

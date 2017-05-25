@@ -98,7 +98,7 @@ namespace GNFS.ECM
             product = 1;
             var R = arithmetic.MontgomeryMul(point, b2, curve);
             var T = arithmetic.MontgomeryMul(point, b2 - 2 * precomputedDataSize, curve);
-            primeManager.Init(b2);
+            primeManager.Init(b2+1);
             for (ulong i = b2; i < b3; i = i + 2 * precomputedDataSize)
             {
                 for (ulong j = 0; j < precomputedDataSize; j++)

@@ -11,10 +11,7 @@ namespace GNFS.Polynomial_arithmetic
     {
         public Polynomial Mod { get; }
         public BigInteger FieldChar { get; }
-
-
         private PolynomialMath _polynomialMath;
-
         public FiniteFieldMath(Polynomial mod,BigInteger fieldChar)
         {
             Mod = mod;
@@ -60,8 +57,6 @@ namespace GNFS.Polynomial_arithmetic
             }
             return res;
         }
-
-
         public PolynomialOverFiniteField ModPow(PolynomialOverFiniteField polynomial, BigInteger power,PolynomialOverFiniteField mod)
         {
             if (power == 0)
@@ -80,8 +75,6 @@ namespace GNFS.Polynomial_arithmetic
             }
             return res;
         }
-
-
         public PolynomialOverFiniteField Div(PolynomialOverFiniteField firstArg, PolynomialOverFiniteField secondArg)
         {
             if (secondArg.Deg == -1)

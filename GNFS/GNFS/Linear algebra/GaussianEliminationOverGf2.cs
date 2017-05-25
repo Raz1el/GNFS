@@ -10,20 +10,15 @@ namespace GNFS.Linear_algebra
     {
         public List<int[]> Solve(Matrix matrix)
         {
-
             var c = new int[matrix.RowsCount];
             var d = new int[matrix.ColumnsCount];
             int r = 0;
-
             for (int i = 0; i < matrix.RowsCount; i++)
             {
                 c[i] = -1;
-
             }
-
             for (int k = 0;  k< matrix.ColumnsCount; k++)
             {
-
                 int j = -1;
                 for (int index=0; index < matrix.RowsCount; index++)
                 {
@@ -35,7 +30,6 @@ namespace GNFS.Linear_algebra
                 }
                 if (j != -1)
                 {
-
                     for (int i= 0; i < matrix.RowsCount; i++)
                     {
                         if (i != j)
@@ -60,7 +54,6 @@ namespace GNFS.Linear_algebra
                     r++;
                     d[k] = -1;
                 }
-
             }
             var res=new List<int[]>();
             for (int k = 0; k < matrix.ColumnsCount; k++)
@@ -78,15 +71,12 @@ namespace GNFS.Linear_algebra
                         {
                             vector[i] = 1;
                         }
-
                     }
                     res.Add(vector);
                 }
             }
-
             return res;
         }
-
         public void CheckSolutions(Matrix matrix, List<int[]> solutions)
         {
             for (int i = 0; i < solutions.Count; i++)
@@ -104,8 +94,5 @@ namespace GNFS.Linear_algebra
                 }
             }
         }
-
-
-
     }
 }

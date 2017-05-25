@@ -7,7 +7,7 @@ namespace GNFS.Integer_arithmetic
         public ulong[] GetPrimes(ulong lowerBound, ulong upperBound)
         {
             bool firstPrimeNeeded = lowerBound <= 2;
-            ValidateBounds(ref lowerBound,ref upperBound);
+            ValidateBounds(ref lowerBound, ref upperBound);
 
 
             ulong intervalLength = ((upperBound - lowerBound) / 2) + 1;
@@ -47,11 +47,20 @@ namespace GNFS.Integer_arithmetic
                 if (d % 6 == 1)
                     d += 2;
             }
-            ulong[] result = new ulong[primesCount];
+
+
             var nextIndex = 0;
+            ulong[] result;
+
+
             if (firstPrimeNeeded)
             {
+                result = new ulong[primesCount + 1];
                 result[nextIndex++] = 2;
+            }
+            else
+            {
+                result = new ulong[primesCount];
             }
             for (ulong i = 0; i < intervalLength; i++)
             {
@@ -131,10 +140,11 @@ namespace GNFS.Integer_arithmetic
             }
             return result;
         }
-
         void ValidateBounds(ref ulong lowerBound,ref ulong upperBound)
         {
-            if (lowerBound >= upperBound || lowerBound < 2)
+            if (lowerBound < 2)
+                lowerBound=3;
+            if (lowerBound >= upperBound)
             {
                 throw new ArgumentException();
             }
@@ -143,11 +153,11 @@ namespace GNFS.Integer_arithmetic
             if (upperBound % 2 == 0)
                 upperBound--;
         }
-
-
         void ValidateBounds(ref long lowerBound, ref long upperBound)
         {
-            if (lowerBound >= upperBound || lowerBound < 2)
+            if(lowerBound < 2)
+                lowerBound=3;
+            if (lowerBound >= upperBound)
             {
                 throw new ArgumentException();
             }
